@@ -1,0 +1,30 @@
+{
+  "currency": "MMK",
+  "inboundAlsPort": 3000,
+  "inboundAdminPort": 3001,
+  "logIndent": 0,
+  "database": {
+    "client": "mysql",
+    "version": "5.7.0",
+    "connection": {
+      "host": "localhost",
+      "port": 13306,
+      "user": "root",
+      "password": "test",
+      "database": "alias_oracle_test",
+      "charset": "utf8mb4",
+      "collation": "utf8mb4_unicode_ci"
+    },
+    "pool": {
+      "min": 0,
+      "max": 10
+    },
+    "migrations": {
+      "tableName": "knex_migrations",
+      "directory": "src/database/migrations"
+    },
+    "asyncStackTraces": true
+  },
+  "migrate": true,
+  "cacheTtlSeconds": 60
+}

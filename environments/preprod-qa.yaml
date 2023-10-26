@@ -1,0 +1,13 @@
+imagePullCredentials:
+  user: mbx-cicd-deployer
+  pass: KWtgDzg4Z@7i/h,x8jgy
+  registry: modusbox-mbx-docker.jfrog.io
+
+env:
+  database:
+    migrate: true
+
+ingress:
+  enabled: true
+  hosts:
+    - host: alias-oracle.qa.pre.myanmarpay-pre.io.internal

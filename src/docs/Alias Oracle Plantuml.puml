@@ -1,0 +1,91 @@
+@startuml
+autonumber
+skinparam activityFontSize 4
+skinparam activityArrowFontSize 12
+skinparam defaultFontSize 12
+skinparam noteFontSize 12
+
+participant "MFI\nCustomer" as cust
+participant "MFI\nStaff" as staff
+box "MFI System"
+    participant "MFI\nCore" as core
+    participant "Integration\nLayer" as intlay
+end box
+
+box "Mojaloop Hub"
+    participant "ALS" as als
+    participant "Alias\nOracle" as ora #lightblue
+    participant "Quote\nService" as quo
+    participant "Transfer\nService" as trf
+end box
+
+participant "Wallet\nDFSP 1\n(WD1)" as wd1
+participant "Wallet\nDFSP 2\n(WD2)" as wd2
+participant "Wallet\nDFSP 3\n(WD3)" as wd3
+
+
+== Discovery Phase  ==
+
+    cust -> staff: request disbursal\nto wallet +MSISDN
+    staff -> core: disburse\nto MSISDN
+    core -> intlay: disburse\nto MSISDN
+    intlay -> als: get DFSPs\nfor MSISDN
+    als -> ora: get DFSPs\nfor MSISDN
+    ora->ora: SELECT DFSP IDs
+    ora -> als: [WD1, WD2, WD3]
+
+    group "Round Robin to all DFSPs"
+        als -> wd1: do you know\nthis MSISDN?
+        als -> wd2: do you know\nthis MSISDN?
+        als -> wd3: do you know\nthis MSISDN?
+        wd1 -> als: yes
+        wd2 -> als: yes
+        wd3 -> als: no
+    end
+
+    als -> intlay: [WD1, WD2]
+    intlay -> core: Choose from [WD2, WD2]
+    core -> staff: Choose from\nWD1 or WD2
+    staff -> cust: Which wallet,\nWD1 or WD2?
+    cust -> staff: WD2 please
+    staff -> core: Choose WD2
+
+    group "Register Alias to Wallet"
+        core -> intlay: Choose WD2
+        intlay -> intlay: Generate UUID alias
+        intlay -> als: register alias\nUUID->MSISDN:WD2
+        als -> ora: register alias\nUUID->MSISDN:WD2
+        ora -> ora: store alias\nUUID->MSISDN:WD2
+        intlay -> core: UUID mapped\nto MSISDN:WD2
+        core -> core: remember UUID
+    end group
+
+    core -> intlay: proceed
+    intlay -> als: resolve UUID party
+    als -> ora: resolve UUID party
+    ora -> ora: lookup UUID mapping
+    ora -> wd2: get MSISDN\nparty info
+    wd2 -> ora: party info
+    ora -> intlay: party info
+
+== Agreement Phase ==
+
+    intlay -> quo: quote for\ntransfer to MSISDN
+    quo -> wd2: quote for\ntransfer to MSISDN
+    wd2 -> quo: terms
+    quo -> intlay: terms
+    intlay -> core: terms
+    
+== Transfer Phase ==
+    
+    core -> intlay: proceed
+    intlay -> trf: transfer
+    trf -> trf: liquidity check
+    trf -> wd2: prepare transfer
+    wd2 -> trf: fulfil transfer
+    trf -> intlay: fulfil transfer
+    intlay -> core: success
+    core -> staff: success
+    staff -> cust: done
+
+@enduml

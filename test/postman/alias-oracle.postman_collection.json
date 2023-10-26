@@ -1,0 +1,324 @@
+{
+	"info": {
+		"_postman_id": "fda4e3b9-95a8-4fcd-ace3-39a3729116d1",
+		"name": "alias-oracle",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "participants",
+			"item": [
+				{
+					"name": "POST /participants",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"fspId\": \"SendingMFI2\",\n  \"currency\": \"MMK\",\n  \"extensionList\": {\n    \"extension\": [\n      { \"key\": \"type\",\n        \"value\": \"MSISDN\"\n      },\n      { \"key\": \"id\",\n        \"value\": \"123456\"\n      }\n    ]\n  }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:3000/participants/ALIAS/1b7c97e2-e5f7-443f-9505-c31ad7f8184e",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"participants",
+								"ALIAS",
+								"1b7c97e2-e5f7-443f-9505-c31ad7f8184e"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "localhost:3300/participants/MSISDN/1b7c97e2-e5f7-443f-9505-c31ad7f8184e",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"fspId\": \"SendingMFI\",\n  \"currency\": \"MMK\",\n  \"extensionList\": {\n    \"extension\": [\n      { \"key\": \"type\",\n        \"value\": \"MSISDN\"\n      },\n      { \"key\": \"id\",\n        \"value\": \"123456\"\n      }\n    ]\n  }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:3300/participants/MSISDN/1b7c97e2-e5f7-443f-9505-c31ad7f8184e",
+							"host": [
+								"localhost"
+							],
+							"port": "3300",
+							"path": [
+								"participants",
+								"MSISDN",
+								"1b7c97e2-e5f7-443f-9505-c31ad7f8184e"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "localhost:3300/participants/MSISDN/1",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:3300/participants/MSISDN/1",
+							"host": [
+								"localhost"
+							],
+							"port": "3300",
+							"path": [
+								"participants",
+								"MSISDN",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "participants-admin",
+			"item": [
+				{
+					"name": "localhost:3301/participants",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n \"fspId\": \"fspId2\",\n \"currency\": \"MMK\",\n \"extensionList\": {\n  \"extension\": [\n   { \"key\": \"type\",\n    \"value\": \"MSISDN\"\n   },\n   { \"key\": \"id\",\n    \"value\": \"123456\"\n   }\n  ]\n }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:3001/participants",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"participants"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "localhost:3301/participants",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:3001/participants",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"participants"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "localhost:3301/participants/1",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:3001/participants/1",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"participants",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "localhost:3301/participants/2",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n \"fspId\": \"fspId3\",\n \"currency\": \"MMK\",\n \"extensionList\": {\n  \"extension\": [\n   { \"key\": \"type\",\n    \"value\": \"MSISDN\"\n   },\n   { \"key\": \"id\",\n    \"value\": \"123456\"\n   }\n  ]\n }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:3001/participants/3",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"participants",
+								"3"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "localhost:3301/participants/1",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "localhost:3001/participants/1",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"participants",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "mappings",
+			"item": [
+				{
+					"name": "localhost:3301/mappings",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n \"fspId\": \"fspId3\",\n \"currency\": \"MMK\",\n \"extensionList\": {\n  \"extension\": [\n   { \"key\": \"type\",\n    \"value\": \"MSISDN\"\n   },\n   { \"key\": \"id\",\n    \"value\": \"123456\"\n   }\n  ]\n }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:3001/mappings",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"mappings"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "localhost:3301/mappings",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:3001/mappings",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"mappings"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "localhost:3301/mappings/1",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:3001/mappings/1",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"mappings",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "localhost:3301/mappings/2",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n \"fspId\": \"fspId3\",\n \"currency\": \"MMK\",\n \"extensionList\": {\n  \"extension\": [\n   { \"key\": \"type\",\n    \"value\": \"MSISDN\"\n   },\n   { \"key\": \"id\",\n    \"value\": \"123456\"\n   }\n  ]\n }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:3001/mappings/2",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"mappings",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "localhost:3301/mappings/1",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "localhost:3001/mappings/1",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"mappings",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}

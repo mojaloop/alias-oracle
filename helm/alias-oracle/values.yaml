@@ -1,0 +1,78 @@
+# Default values for alias-oracle-helm.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+mariadb:
+  enabled: true
+  nameOverride: alias-oracle-db
+  fullnameOverride: alias-oracle-db
+  global:
+    storageClass: slow
+  auth:
+    database: alias-oracle
+    rootPassword: modus
+    username: oracle
+    password: oracle
+  primary:
+    persistence:
+      enabled: true
+  secondary:
+    persistence:
+      enabled: true
+
+
+replicaCount: 1
+
+nameOverride: "alias-oracle"
+fullnameOverride: "alias-oracle"
+
+image:
+  repository: ghcr.io/mojaloop/alias-oracle
+  tag: 1.4.2
+  pullPolicy: Always
+
+service:
+  type: NodePort
+  port: 8084
+
+ingress:
+  enabled: true
+  ## nginx ingress controller >= v0.22.0
+  annotations: {
+    "nginx.ingress.kubernetes.io/rewrite-target": "/$2"
+  }
+  ingressPathRewriteRegex: (/|$)(.*)
+  hosts:
+    - host: chart-example.local
+
+#### ENV values - the same values from .env.example
+env:
+  alsApiListenPort: 3000
+  adminApiListenPort: 3001
+  logIndent: 0
+  database:
+    dbHost: alias-oracle-db
+    dbPort: 3306
+    dbUser: oracle
+    dbPass: oracle
+    dbRootPass: modus
+    dbName: alias-oracle
+    migrate: false
+
+resources: {}
+  # We usually recommend not to specify default resources and to leave this as a conscious
+  # choice for the user. This also increases chances charts run on environments with little
+  # resources, such as Minikube. If you do want to specify resources, uncomment the following
+  # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
+  # limits:
+  #   cpu: 100m
+  #   memory: 128Mi
+  # requests:
+  #   cpu: 100m
+  #   memory: 128Mi
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}
+

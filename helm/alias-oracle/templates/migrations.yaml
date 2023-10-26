@@ -1,0 +1,43 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: "{{.Release.Name}}-migration-job"
+  labels:
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/version: {{ .Chart.AppVersion }}
+    helm.sh/chart: "{{.Chart.Name}}-{{.Chart.Version}}"
+spec:
+  template:
+    metadata:
+      name: "{{ .Release.Name }}-migration-job"
+      labels:
+        app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
+        app.kubernetes.io/instance: {{ .Release.Name | quote }}
+        helm.sh/chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+    spec:
+      {{- if .Values.imagePullCredentials }}
+      imagePullSecrets:
+        - name: {{ include "alias-oracle.name" . }}-cred
+      {{- end }}
+      containers:
+        - name: db-migration
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          command:
+            - /usr/local/bin/npm
+          args:
+            - run
+            - migrate
+          env:
+            - name: DATABASE_CONNECTION_HOST
+              value: {{ .Values.env.database.dbHost | quote }}
+            - name: DATABASE_CONNECTION_PORT
+              value: {{ .Values.env.database.dbPort | quote }}
+            - name: DATABASE_CONNECTION_USER
+              value: {{ .Values.env.database.dbUser | quote }}
+            - name: DATABASE_CONNECTION_PASSWORD
+              value: {{ .Values.env.database.dbPass | quote }}
+            - name: DATABASE_CONNECTION_DATABASE
+              value: {{ .Values.env.database.dbName | quote }}
+      restartPolicy: OnFailure
+  backoffLimit: 20

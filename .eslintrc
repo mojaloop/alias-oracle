@@ -1,0 +1,22 @@
+{
+  "env": {
+    "es2020": true,
+    "node": true,
+    "jest": true
+  },
+  "extends": "airbnb-base",
+  "rules": {
+    "func-names": ["error", "never"],
+    "no-use-before-define": [ "error", { "functions": false } ],
+    "strict": "off",
+    "no-plusplus": "off",
+    "no-restricted-syntax": "off",
+    "no-continue": "off",
+    "no-console": "off",
+    "prefer-template": "off",
+    "radix": "off",
+    "no-underscore-dangle": "off",
+    "spaced-comment": "off",
+    "import/no-extraneous-dependencies": "off"
+  }
+}

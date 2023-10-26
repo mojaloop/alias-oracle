@@ -1,0 +1,1053 @@
+openapi: 3.0.3
+info:
+  version: '1.0'
+  title: Oracle Admin API
+  description: Admin interface for Oracle Administrator to manage participant and mappings data
+  contact: {}
+paths:
+  /health:
+    get:
+      tags:
+        - health
+      responses:
+        '200':
+          $ref: '#/components/responses/ResponseHealth200'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '405':
+          $ref: '#/components/responses/405'
+        '406':
+          $ref: '#/components/responses/406'
+        '500':
+          $ref: '#/components/responses/500'
+        '501':
+          $ref: '#/components/responses/501'
+        '503':
+          $ref: '#/components/responses/503'
+      operationId: HealthGet
+      summary: Get server health
+      description: The HTTP request GET /health is used to return the current status of the API.
+  /mappings:
+    post:
+      description: 'The HTTP request `POST /mappings` is used to create an "alias to MSISDN-DFSP pair" mapping.'
+      summary: Create mapping information
+      tags:
+        - mappings
+      operationId: postMappings
+      requestBody:
+        description: Mapping information to be created.
+        required: true
+        content:
+          application/json:
+            schema:
+              title: mappingsPostRequest
+              type: object
+              description: |
+                The object sent in the POST /mappings request.
+              properties:
+                fspId:
+                  $ref: '#/components/schemas/FspId'
+                currency:
+                  $ref: '#/components/schemas/Currency'
+                extensionList:
+                  $ref: '#/components/schemas/ExtensionList'
+              required:
+                - fspId
+                - currency
+                - extensionList
+      responses:
+        '200':
+          $ref: '#/components/responses/MappingsPostResponse'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '405':
+          $ref: '#/components/responses/405'
+        '406':
+          $ref: '#/components/responses/406'
+        '500':
+          $ref: '#/components/responses/500'
+        '501':
+          $ref: '#/components/responses/501'
+        '503':
+          $ref: '#/components/responses/503'
+    get:
+      description: 'The HTTP request `GET /mappings` is used to retrieve information about mappings already created. It can be used, for example, to check which internal IDs are associated with which mappings.'
+      summary: Look up mapping information for all mappings
+      tags:
+        - mappings
+      operationId: getMappings
+      #      parameters:
+      #        - $ref: '#/components/parameters/Accept'
+      responses:
+        '200':
+          $ref: '#/components/responses/MappingsGetResponse'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '405':
+          $ref: '#/components/responses/405'
+        '406':
+          $ref: '#/components/responses/406'
+        '500':
+          $ref: '#/components/responses/500'
+        '501':
+          $ref: '#/components/responses/501'
+        '503':
+          $ref: '#/components/responses/503'
+  '/mappings/{ID}':
+    parameters:
+      - $ref: '#/components/parameters/mappingId'
+    get:
+      description: 'The HTTP request `GET /mappings/{ID}` is used to retrieve information about a particular mapping (identified by its internal identifier).'
+      summary: Look up mapping information
+      tags:
+        - mappings
+      operationId: getMappingByID
+      #      parameters:
+      #        - $ref: '#/components/parameters/Accept'
+      responses:
+        '200':
+          $ref: '#/components/responses/MappingsGetByIdResponse'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '405':
+          $ref: '#/components/responses/405'
+        '406':
+          $ref: '#/components/responses/406'
+        '500':
+          $ref: '#/components/responses/500'
+        '501':
+          $ref: '#/components/responses/501'
+        '503':
+          $ref: '#/components/responses/503'
+    put:
+      description: 'The `PUT /mappings/{ID}` is used to update a particular mapping (identified by its internal identifier).'
+      summary: Update mapping information
+      tags:
+        - mappings
+      operationId: putMappingByID
+#      parameters:
+#        - $ref: '#/components/parameters/Content-Length'
+      requestBody:
+        description: Mapping information to be updated.
+        required: true
+        content:
+          application/json:
+            schema:
+              title: mappingsIDPutResponse
+              type: object
+              description: |
+                The object sent in the PUT /mappings/{ID}.
+              properties:
+                fspId:
+                  $ref: '#/components/schemas/FspId'
+                extensionList:
+                  $ref: '#/components/schemas/ExtensionList'
+              required:
+                - fspId
+      responses:
+        '200':
+          $ref: '#/components/responses/MappingsPutByIdResponse'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '405':
+          $ref: '#/components/responses/405'
+        '406':
+          $ref: '#/components/responses/406'
+        '500':
+          $ref: '#/components/responses/500'
+        '501':
+          $ref: '#/components/responses/501'
+        '503':
+          $ref: '#/components/responses/503'
+    delete:
+      description: |-
+        The HTTP request `DELETE /mappings/{ID}` is used to delete a particular mapping (identified by its internal identifier).
+      summary: Delete mapping information
+      tags:
+        - mappings
+      operationId: deleteMappingByID
+      #      parameters:
+      #        - $ref: '#/components/parameters/Accept'
+      responses:
+        '204':
+          $ref: '#/components/responses/204'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '405':
+          $ref: '#/components/responses/405'
+        '406':
+          $ref: '#/components/responses/406'
+        '500':
+          $ref: '#/components/responses/500'
+        '501':
+          $ref: '#/components/responses/501'
+        '503':
+          $ref: '#/components/responses/503'
+  /participants:
+    post:
+      description: The HTTP request `POST /participants` is used to create information regarding a participant (that is, an FSP or DFSP).
+      summary: Create participant information
+      tags:
+        - participants
+      operationId: ParticipantsPost
+      #      parameters:
+      #        - $ref: '#/components/parameters/Accept'
+      #        - $ref: '#/components/parameters/Content-Length'
+      #        - $ref: '#/components/parameters/Date'
+      requestBody:
+        description: Participant information to be created.
+        required: true
+        content:
+          application/json:
+            schema:
+              title: ParticipantsPostRequest
+              type: object
+              description: The object sent in the POST /participants request.
+              properties:
+                fspId:
+                  $ref: '#/components/schemas/FspId'
+              required:
+                - fspId
+      responses:
+        '200':
+          $ref: '#/components/responses/ParticipantsPostResponse'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '405':
+          $ref: '#/components/responses/405'
+        '406':
+          $ref: '#/components/responses/406'
+        '500':
+          $ref: '#/components/responses/500'
+        '501':
+          $ref: '#/components/responses/501'
+        '503':
+          $ref: '#/components/responses/503'
+    get:
+      description: 'The HTTP request `GET /participants` is used to retrieve information for all participants. It can be used, for example, to check which internal IDs are associated with which participants.'
+      summary: Look up participant information for all participants
+      tags:
+        - participants
+      operationId: ParticipantsGet
+      #      parameters:
+      #        - $ref: '#/components/parameters/Accept'
+      responses:
+        '200':
+          $ref: '#/components/responses/ParticipantsGetResponse'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '405':
+          $ref: '#/components/responses/405'
+        '406':
+          $ref: '#/components/responses/406'
+        '500':
+          $ref: '#/components/responses/500'
+        '501':
+          $ref: '#/components/responses/501'
+        '503':
+          $ref: '#/components/responses/503'
+  '/participants/{ID}':
+    parameters:
+      - $ref: '#/components/parameters/participantId'
+      #      - $ref: '#/components/parameters/Date'
+    get:
+      description: 'The HTTP request `GET /participants/{ID}` is used to retrieve information about a particular participant (defined by its internal identifier).'
+      summary: Look up participant information
+      tags:
+        - participants
+      operationId: ParticipantsByIDGet
+      #      parameters:
+      #        - $ref: '#/components/parameters/Accept'
+      responses:
+        '200':
+          $ref: '#/components/responses/ParticipantsGetByIdResponse'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '405':
+          $ref: '#/components/responses/405'
+        '406':
+          $ref: '#/components/responses/406'
+        '500':
+          $ref: '#/components/responses/500'
+        '501':
+          $ref: '#/components/responses/501'
+        '503':
+          $ref: '#/components/responses/503'
+    put:
+      description: 'The HTTP request `PUT /participants/{ID}` is used to update the `fspId` of a particular participant (defined by its internal identifier).'
+      summary: Update participant information
+      tags:
+        - participants
+      operationId: ParticipantsByIDPut
+#      parameters:
+#        - $ref: '#/components/parameters/Content-Length'
+      requestBody:
+        description: Participant information to be updated.
+        required: true
+        content:
+          application/json:
+            schema:
+              title: ParticipantsIDPutResponse
+              type: object
+              description: 'The participant entity object updated.'
+              properties:
+                fspId:
+                  $ref: '#/components/schemas/FspId'
+                currency:
+                  $ref: '#/components/schemas/Currency'
+                extensionList:
+                  $ref: '#/components/schemas/ExtensionList'
+              required:
+                - fspId
+      responses:
+        '200':
+          $ref: '#/components/responses/ParticipantsPutByIdResponse'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '405':
+          $ref: '#/components/responses/405'
+        '406':
+          $ref: '#/components/responses/406'
+        '500':
+          $ref: '#/components/responses/500'
+        '501':
+          $ref: '#/components/responses/501'
+        '503':
+          $ref: '#/components/responses/503'
+    delete:
+      description: 'The HTTP request `DELETE /participants/{ID}` is used to delete a particular participant (defined by its internal identifier).'
+      summary: Delete participant information
+      tags:
+        - participants
+      operationId: ParticipantsByIDDelete
+      #      parameters:
+      #        - $ref: '#/components/parameters/Accept'
+      responses:
+        '204':
+          $ref: '#/components/responses/204'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '405':
+          $ref: '#/components/responses/405'
+        '406':
+          $ref: '#/components/responses/406'
+        '500':
+          $ref: '#/components/responses/500'
+        '501':
+          $ref: '#/components/responses/501'
+        '503':
+          $ref: '#/components/responses/503'
+tags:
+  - name: participants
+    description: ''
+servers:
+  - url: /
+components:
+  schemas:
+    FspId:
+      title: FspId
+      type: string
+      minLength: 1
+      maxLength: 32
+      description: FSP identifier assigned to the participant when onboarding to the Switch.
+      example: 1234
+    Currency:
+      title: Currency
+      description: |
+        The currency codes defined in
+        [ISO 4217](https://www.iso.org/iso-4217-currency-codes.html)
+        as three-letter alphabetic codes are used as the standard naming representation for currencies.
+      type: string
+      minLength: 3
+      maxLength: 3
+      enum:
+        - AED
+        - AFN
+        - ALL
+        - AMD
+        - ANG
+        - AOA
+        - ARS
+        - AUD
+        - AWG
+        - AZN
+        - BAM
+        - BBD
+        - BDT
+        - BGN
+        - BHD
+        - BIF
+        - BMD
+        - BND
+        - BOB
+        - BRL
+        - BSD
+        - BTN
+        - BWP
+        - BYN
+        - BZD
+        - CAD
+        - CDF
+        - CHF
+        - CLP
+        - CNY
+        - COP
+        - CRC
+        - CUC
+        - CUP
+        - CVE
+        - CZK
+        - DJF
+        - DKK
+        - DOP
+        - DZD
+        - EGP
+        - ERN
+        - ETB
+        - EUR
+        - FJD
+        - FKP
+        - GBP
+        - GEL
+        - GGP
+        - GHS
+        - GIP
+        - GMD
+        - GNF
+        - GTQ
+        - GYD
+        - HKD
+        - HNL
+        - HRK
+        - HTG
+        - HUF
+        - IDR
+        - ILS
+        - IMP
+        - INR
+        - IQD
+        - IRR
+        - ISK
+        - JEP
+        - JMD
+        - JOD
+        - JPY
+        - KES
+        - KGS
+        - KHR
+        - KMF
+        - KPW
+        - KRW
+        - KWD
+        - KYD
+        - KZT
+        - LAK
+        - LBP
+        - LKR
+        - LRD
+        - LSL
+        - LYD
+        - MAD
+        - MDL
+        - MGA
+        - MKD
+        - MMK
+        - MNT
+        - MOP
+        - MRO
+        - MUR
+        - MVR
+        - MWK
+        - MXN
+        - MYR
+        - MZN
+        - NAD
+        - NGN
+        - NIO
+        - NOK
+        - NPR
+        - NZD
+        - OMR
+        - PAB
+        - PEN
+        - PGK
+        - PHP
+        - PKR
+        - PLN
+        - PYG
+        - QAR
+        - RON
+        - RSD
+        - RUB
+        - RWF
+        - SAR
+        - SBD
+        - SCR
+        - SDG
+        - SEK
+        - SGD
+        - SHP
+        - SLL
+        - SOS
+        - SPL
+        - SRD
+        - STD
+        - SVC
+        - SYP
+        - SZL
+        - THB
+        - TJS
+        - TMT
+        - TND
+        - TOP
+        - TRY
+        - TTD
+        - TVD
+        - TWD
+        - TZS
+        - UAH
+        - UGX
+        - USD
+        - UYU
+        - UZS
+        - VEF
+        - VND
+        - VUV
+        - WST
+        - XAF
+        - XCD
+        - XDR
+        - XOF
+        - XPF
+        - YER
+        - ZAR
+        - ZMW
+        - ZWD
+      example: MMK
+    ExtensionList:
+      title: ExtensionList
+      type: object
+      description: |
+        Data model for the complex type ExtensionList.
+        A list of extensions, specific to deployment.
+      properties:
+        extension:
+          type: array
+          items:
+            title: Extension
+            type: object
+            description: Data model for the complex type Extension.
+            properties:
+              key:
+                title: ExtensionKey
+                type: string
+                minLength: 1
+                maxLength: 32
+                description: Extension key.
+              value:
+                title: ExtensionValue
+                type: string
+                minLength: 1
+                maxLength: 128
+                description: Extension value.
+            required:
+              - key
+              - value
+          minItems: 1
+          maxItems: 16
+          description: Number of Extension elements.
+      required:
+        - extension
+    Status:
+      title: Status
+      description: Data model for the API status.
+      type: object
+      additionalProperties: false
+      properties:
+        status:
+          description: The return status, usually "OK".
+          type: string
+        uptime:
+          description: The amount of time in seconds that the server has been up for.
+          type: number
+        startTime:
+          description: The UTC time when the server started up.
+          type: string
+        versionNumber:
+          description: Current version of the API.
+          type: string
+        services:
+          description: A list of the statuses of services that the API requires.
+          type: array
+          items: {}
+
+    ResponseBodyError:
+      title: ErrorInformationResponse
+      type: object
+      description: Data model for the complex type object that contains an optional element ErrorInformation used along with 4xx and 5xx responses.
+      properties:
+        errorInformation:
+          title: ErrorInformation
+          type: object
+          description: Data model for the complex type ErrorInformation.
+          properties:
+            errorCode:
+              title: ErrorCode
+              type: string
+              pattern: '^[1-9]\d{3}$'
+              description: |
+                The API data type ErrorCode is a JSON String of four characters,
+                consisting of digits only. Negative numbers are not allowed.
+                A leading zero is not allowed. Each error code in the API is a
+                four-digit number, for example, 1234, where the first number
+                (1 in the example) represents the high-level error category,
+                the second number (2 in the example) represents the low-level error category,
+                and the last two numbers (34 in the example) represent the specific error.
+              example: 5100
+            errorDescription:
+              title: ErrorDescription
+              type: string
+              minLength: 1
+              maxLength: 128
+              description: Error description string.
+              example: This is an error description.
+            extensionList:
+              $ref: '#/components/schemas/ExtensionList'
+          required:
+            - errorCode
+            - errorDescription
+    MappingsPost:
+      title: MappingsPost
+      description: OK
+      type: object
+      properties:
+        id:
+          type: number
+        fspId:
+          $ref: '#/components/schemas/FspId'
+        currency:
+          $ref: '#/components/schemas/Currency'
+        extensionList:
+          $ref: '#/components/schemas/ExtensionList'
+    Mapping:
+      title: object
+      description: Mapping object
+      properties:
+        id:
+          type: integer
+          title: The id schema
+          description: A database-generated internal identifier of the mapping.
+          default: 0
+          example: 1
+        alias:
+          type: string
+          minLength: 1
+          title: The alias schema
+          description: The UUID alias.
+          default: ''
+          example: 53b1f500-901a-4433-9758-d3a42ded3c67
+        fspId:
+          type: string
+          title: The fspId schema
+          description: FSP identifier assigned to the participant when onboarding to the Switch.
+          default: ''
+          example: fspId1
+        identifierType:
+          type: string
+          title: The identifierType schema
+          description: The type of account identifier.
+          default: ''
+          example: MSISDN
+        identifierValue:
+          type: string
+          title: The identifierValue schema
+          description: The value of the account identifier.
+          default: ''
+          example: '123456'
+        createdAt:
+          type: string
+          title: The createdAt schema
+          description: The date and time when the mapping was created.
+          default: ''
+          example: '2021-02-10 02:46:53'
+    Mappings:
+      title: Mappings
+      description: OK
+      type: array
+      items:
+        $ref: '#/components/schemas/Mapping'
+    ParticipantsPost:
+      title: ParticipantsPost
+      description: OK
+      type: object
+      properties:
+        id:
+          type: integer
+          title: The id schema
+          description: A database-generated internal identifier of the participant.
+          default: 0
+          example: 1
+        fspId:
+          $ref: '#/components/schemas/FspId'
+    ParticipantsGet:
+      title: ParticipantsGet
+      description: OK
+      type: array
+      items:
+        properties:
+            id:
+              type: integer
+              title: The id schema
+              description: A database-generated internal identifier of the participant.
+              default: 0
+              example: 1
+            fspId:
+              type: string
+              title: The fspId schema
+              description: The Switch identifier of the participant.
+              default: ''
+              example: fspId1
+            currency:
+              $ref: '#/components/schemas/Currency'
+            createdAt:
+              type: string
+              title: The createdAt schema
+              description: The date and time when the participant was created.
+              default: ''
+              example: '2021-02-10 02:46:53'
+    Participants:
+      title: Participants
+      description: OK
+      type: object
+      properties:
+        id:
+          type: integer
+          title: The id schema
+          description: A database-generated internal identifier of the participant.
+          default: 0
+          example: 1
+        fspId:
+          type: string
+          title: The fspId schema
+          description: The Switch identifier of the participant.
+          default: ''
+          example: fspId1
+        currency:
+          $ref: '#/components/schemas/Currency'
+        createdAt:
+          type: string
+          title: The createdAt schema
+          description: The date and time when the participant was created.
+          default: ''
+          example: '2021-02-10 02:46:53'
+    ParticipantsPut:
+      title: ParticipantsPut
+      description: OK
+      type: object
+      properties:
+        id:
+          type: integer
+          title: The id schema
+          description: A database-generated internal identifier of the participant.
+          default: 0
+          example: 1
+        fspId:
+          $ref: '#/components/schemas/FspId'
+
+  headers:
+    Content-Length:
+      schema:
+        type: integer
+      description: |
+        The `Content-Length` header field indicates the anticipated size of the payload body.
+        Only sent if there is a body.
+        **Note:** The API supports a maximum size of 5242880 bytes (5 Megabytes).
+    Content-Type:
+      schema:
+        type: string
+      description: |
+        The `Content-Type` header indicates the specific version of the API used to
+        send the payload body.
+
+  parameters:
+    Accept:
+      name: Accept
+      in: header
+      required: true
+      schema:
+        type: string
+      description: |
+        The `Accept` header field indicates the version of the API the client
+        would like the server to use.
+    Content-Length:
+      name: Content-Length
+      in: header
+      required: false
+      schema:
+        type: integer
+      description: |
+        The `Content-Length` header field indicates the anticipated size of the
+        payload body. Only sent if there is a body.
+        **Note:** The API supports a maximum size of 5242880 bytes (5 Megabytes).
+    Type:
+      name: Type
+      in: path
+      required: true
+      schema:
+        type: string
+      description: 'The type of the party identifier. For example, `MSISDN`, `ACCOUNT_ID`.'
+    mappingId:
+      name: ID
+      in: path
+      required: true
+      schema:
+        type: number
+      description: The database-generated internal identifier assigned to the mapping when the mapping was created.
+    participantId:
+      name: ID
+      in: path
+      required: true
+      schema:
+        type: number
+      description: The database-generated internal identifier assigned to the participant when the participant was created.
+    Content-Type:
+      name: Content-Type
+      in: header
+      schema:
+        type: string
+      required: true
+      description: |
+        The `Content-Type` header indicates the specific version of the API used
+        to send the payload body.
+    Date:
+      name: Date
+      in: header
+      schema:
+        type: string
+      required: true
+      description: The `Date` header field indicates the date when the request was sent.
+
+  responses:
+    ResponseHealth200:
+      description: OK
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Status'
+    MappingsPostResponse:
+      description: OK
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/MappingsPost'
+    MappingsGetResponse:
+      description: OK
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Mappings'
+    MappingsGetByIdResponse:
+      description: OK
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Mapping'
+    MappingsPutByIdResponse:
+      description: OK
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Mapping'
+    ParticipantsPostResponse:
+      description: OK
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ParticipantsPost'
+    ParticipantsGetResponse:
+      description: OK
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ParticipantsGet'
+    ParticipantsGetByIdResponse:
+      description: OK
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Participants'
+    ParticipantsPutByIdResponse:
+      description: OK
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ParticipantsPut'
+    '202':
+      description: Accepted
+    '204':
+      description: No Content
+    '400':
+      description: Bad Request
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ResponseBodyError'
+      headers:
+        Content-Length:
+          $ref: '#/components/headers/Content-Length'
+        Content-Type:
+          $ref: '#/components/headers/Content-Type'
+    '401':
+      description: Unauthorized
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ResponseBodyError'
+      headers:
+        Content-Length:
+          $ref: '#/components/headers/Content-Length'
+        Content-Type:
+          $ref: '#/components/headers/Content-Type'
+    '403':
+      description: Forbidden
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ResponseBodyError'
+      headers:
+        Content-Length:
+          $ref: '#/components/headers/Content-Length'
+        Content-Type:
+          $ref: '#/components/headers/Content-Type'
+    '404':
+      description: Not Found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ResponseBodyError'
+      headers:
+        Content-Length:
+          $ref: '#/components/headers/Content-Length'
+        Content-Type:
+          $ref: '#/components/headers/Content-Type'
+    '405':
+      description: Method Not Allowed
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ResponseBodyError'
+      headers:
+        Content-Length:
+          $ref: '#/components/headers/Content-Length'
+        Content-Type:
+          $ref: '#/components/headers/Content-Type'
+    '406':
+      description: Not Acceptable
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ResponseBodyError'
+      headers:
+        Content-Length:
+          $ref: '#/components/headers/Content-Length'
+        Content-Type:
+          $ref: '#/components/headers/Content-Type'
+    '500':
+      description: Internal Server Error
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ResponseBodyError'
+      headers:
+        Content-Length:
+          $ref: '#/components/headers/Content-Length'
+        Content-Type:
+          $ref: '#/components/headers/Content-Type'
+    '501':
+      description: Not Implemented
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ResponseBodyError'
+      headers:
+        Content-Length:
+          $ref: '#/components/headers/Content-Length'
+        Content-Type:
+          $ref: '#/components/headers/Content-Type'
+    '503':
+      description: Service Unavailable
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ResponseBodyError'
+      headers:
+        Content-Length:
+          $ref: '#/components/headers/Content-Length'
+        Content-Type:
+          $ref: '#/components/headers/Content-Type'

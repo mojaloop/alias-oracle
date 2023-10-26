@@ -1,0 +1,28 @@
+{{- if .Values.ingress.enabled -}}
+{{- $fullName := include "alias-oracle.fullname" . -}}
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: {{ $fullName }}
+  labels:
+{{ include "alias-oracle.labels" . | indent 4 }}
+  {{- with .Values.ingress.annotations }}
+  annotations:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+spec:
+  rules:
+  {{- range .Values.ingress.hosts }}
+    - host: {{ .host | quote }}
+      http:
+        paths:
+        - path: /als-api{{ $.Values.ingress.ingressPathRewriteRegex }}
+          backend:
+            serviceName: {{ $fullName }}
+            servicePort: alsapiport
+        - path: /admin-api{{ $.Values.ingress.ingressPathRewriteRegex }}
+          backend:
+            serviceName: {{ $fullName }}
+            servicePort: adminapiport
+  {{- end }}
+{{- end }}

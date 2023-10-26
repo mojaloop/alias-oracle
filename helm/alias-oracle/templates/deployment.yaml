@@ -1,0 +1,74 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "alias-oracle.fullname" . }}
+  labels:
+{{ include "alias-oracle.labels" . | indent 4 }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: {{ include "alias-oracle.name" . }}
+      app.kubernetes.io/instance: {{ .Release.Name }}
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: {{ include "alias-oracle.name" . }}
+        app.kubernetes.io/instance: {{ .Release.Name }}
+    spec:
+    {{- if .Values.imagePullCredentials }}
+      imagePullSecrets:
+        - name: {{ include "alias-oracle.name" . }}-cred
+    {{- end }}
+      containers:
+        - name: {{ .Chart.Name }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          env:
+            - name: LISTEN_ALS_PORT
+              value: {{ .Values.env.alsApiListenPort | quote }}
+            - name: LISTEN_ADMIN_PORT
+              value: {{ .Values.env.adminApiListenPort | quote }}
+            - name: LOG_INDENT
+              value: {{ .Values.env.logIndent | quote }}
+            - name: DATABASE_CONNECTION_HOST
+              value: {{ .Values.env.database.dbHost | quote }}
+            - name: DATABASE_CONNECTION_PORT
+              value: {{ .Values.env.database.dbPort | quote }}
+            - name: DATABASE_CONNECTION_USER
+              value: {{ .Values.env.database.dbUser | quote }}
+            - name: DATABASE_CONNECTION_PASSWORD
+              value: {{ .Values.env.database.dbPass | quote }}
+            - name: DATABASE_CONNECTION_DATABASE
+              value: {{ .Values.env.database.dbName | quote }}
+            - name: DATABASE_MIGRATE
+              value: {{ .Values.env.database.migrate | quote }}
+          ports:
+            - name: alsapiport
+              containerPort: {{ .Values.env.alsApiListenPort }}
+              protocol: TCP
+            - name: adminapiport
+              containerPort: {{ .Values.env.adminApiListenPort }}
+              protocol: TCP
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: {{ .Values.env.alsApiListenPort }}
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: {{ .Values.env.alsApiListenPort }}
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+    {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+    {{- end }}
+    {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+    {{- end }}

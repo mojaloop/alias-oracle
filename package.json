@@ -1,0 +1,82 @@
+{
+  "name": "alias-oracle",
+  "version": "1.4.2",
+  "description": "Enhanced Oracle Alias functionality",
+  "main": "index.js",
+  "scripts": {
+    "start": "node src",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "test": "npm run test:unit",
+    "test:unit": "jest --testMatch '**/test/**/*.test.js'",
+    "test:coverage": "jest --coverage --coverageThreshold='{}' --testMatch '**/test/**/*.test.js'",
+    "test:coverage-check": "jest --coverage --testMatch '**/test/**/*.test.js'",
+    "test:junit": "jest --reporters=default --reporters=jest-junit --testMatch '**/test/**/*.test.js'",
+    "migrate": "DOTENV_CONFIG_PATH=$(pwd)/.env npx knex --knexfile src/knexfile.js migrate:latest",
+    "seed": "DOTENV_CONFIG_PATH=$(pwd)/.env npx knex --knexfile src/knexfile.js seed:run",
+    "new-migration": "DOTENV_CONFIG_PATH=$(pwd)/.env npx knex --knexfile src/knexfile.js migrate:make",
+    "rollback": "DOTENV_CONFIG_PATH=$(pwd)/.env npx knex --knexfile src/knexfile.js migrate:rollback"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mojaloop/alias-oracle.git"
+  },
+  "author": "ModusBox Inc.",
+  "contributors": [
+    "James Bush <james.bush@modusbox.com>",
+    "Murthy kakarlamudi <murthy@modusbox.com >",
+    "Yevhen Kyriukha <yevhen.kyriukha@modusbox.com>",
+    "Juan Correa <juan.correa@modusbox.com>"
+  ],
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/mojaloop/alias-oracle/issues"
+  },
+  "homepage": "https://github.com/mojaloop/alias-oracle#readme",
+  "dependencies": {
+    "@internal/database": "file:src/database",
+    "@internal/log": "file:src/lib/log",
+    "@internal/model": "file:src/lib/model",
+    "@internal/randomphrase": "file:src/lib/randomphrase",
+    "@internal/requests": "file:src/lib/requests",
+    "@internal/utils": "file:src/lib/utils",
+    "@internal/error": "file:src/lib/error",
+    "@internal/middlewares": "file:src/lib/middlewares",
+    "@koa/cors": "^3.1.0",
+    "@mojaloop/sdk-standard-components": "^15.11.0",
+    "co-body": "^6.1.0",
+    "dotenv": "^10.0.0",
+    "env-var": "^7.0.1",
+    "faker": "^5.5.3",
+    "knex": "^2.4.0",
+    "koa": "^2.13.1",
+    "koa-body": "^4.2.0",
+    "koa-bodyparser": "^4.3.0",
+    "koa-oas3": "^2.3.1",
+    "koa-router": "^10.0.0",
+    "koa2-oauth-server": "^1.0.0",
+    "memory-cache": "0.2.0",
+    "mysql": "^2.18.1",
+    "node-fetch": "^3.1.1",
+    "sqlite3": "^5.0.2",
+    "uuid": "^8.3.2",
+    "uuidv4": "^6.2.10"
+  },
+  "jest": {
+    "modulePathIgnorePatterns": [
+      ".cache"
+    ]
+  },
+  "devDependencies": {
+    "@types/jest": "^26.0.23",
+    "eslint": "^7.29.0",
+    "eslint-config-airbnb-base": "^14.2.1",
+    "eslint-plugin-import": "^2.23.4",
+    "jest": "^27.0.4",
+    "jest-junit": "^12.2.0",
+    "nock": "^13.1.0",
+    "openapi-response-validator": "^9.0.3",
+    "redis-mock": "^0.56.3",
+    "supertest": "^6.1.3"
+  }
+}
